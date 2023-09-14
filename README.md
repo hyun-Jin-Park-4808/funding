@@ -48,7 +48,7 @@
 
 
 ## Trouble Shooting
-[go to the trouble shooting section](doc/TROUBLE_SHOOTING.md)
+[go to the trouble shooting section](TROUBLE_SHOOTING.md)
 
 
 ### Teck Stack
