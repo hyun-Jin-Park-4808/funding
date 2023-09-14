@@ -44,10 +44,11 @@
   - 사용자는 펀딩 메이커를 팔로우할 수 있다.
  
 ## ERD
-![image](https://github.com/hyun-Jin-Park-4808/funding/assets/132244618/c7b46876-06f8-49ea-a9d8-fc30e9fe1273)
+![image](eXERD.png)
 
 
 ## Trouble Shooting
+[go to the trouble shooting section](doc/TROUBLE_SHOOTING.md)
 
 
 ### Teck Stack
