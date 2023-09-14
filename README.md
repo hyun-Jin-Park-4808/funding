@@ -51,7 +51,7 @@
 [go to the trouble shooting section](TROUBLE_SHOOTING.md)
 
 
-### Teck Stack
+### Tech Stack
 - Java
 - SpringBoot
 - MySQL
