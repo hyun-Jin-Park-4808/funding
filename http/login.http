@@ -1,0 +1,9 @@
+## 1. 회원가입
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+  "loginId": "guswlsdl4808",
+  "password": "12133",
+  "roles": ["ROLE_SUPPORTER"]
+}

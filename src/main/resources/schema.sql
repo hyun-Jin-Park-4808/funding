@@ -1,3 +1,10 @@
+DROP TABLE IF EXISTS WISH;
+DROP TABLE IF EXISTS PRODUCT;
+DROP TABLE IF EXISTS FOLLOW;
+DROP TABLE IF EXISTS MAKER;
+drop table if exists ROLE;
+DROP TABLE IF EXISTS USER;
+
 -- 사용자
 CREATE TABLE `USER`
 (
@@ -16,6 +23,24 @@ ALTER TABLE `USER`
         PRIMARY KEY (
                      `user_id` -- 사용자 번호
             );
+
+-- 사용자 권한
+CREATE TABLE `ROLE`
+(
+    `role`    VARCHAR(50) NULL COMMENT '사용자 권한', -- 사용자 권한
+    `user_id` BIGINT      NULL COMMENT '사용자 번호'  -- 사용자 번호
+)
+    COMMENT '사용자 권한';
+
+-- 사용자 권한
+ALTER TABLE `ROLE`
+    ADD CONSTRAINT `FK_USER_TO_ROLE` -- 사용자 -> 사용자 권한
+        FOREIGN KEY (
+                     `user_id` -- 사용자 번호
+            )
+            REFERENCES `USER` ( -- 사용자
+                               `user_id` -- 사용자 번호
+                );
 
 -- 펀딩 메이커
 CREATE TABLE `MAKER`

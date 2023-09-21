@@ -8,16 +8,20 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate.format_sql: true
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
     database: mysql
+    defer-datasource-initialization: true
 
   sql:
     init:
       mode: always
+
+  jwt:
+    secret: amluLXNwcmluZy1ib290LWRpdmlkZW5kLXByb2plY3QtdHV0b3JpYWwtand0LXNlY3JldC1rZXkK
 
 logging:
   level:

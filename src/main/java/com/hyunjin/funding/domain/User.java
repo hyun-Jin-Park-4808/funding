@@ -1,18 +1,25 @@
 package com.hyunjin.funding.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Builder
@@ -43,9 +50,16 @@ public class User implements UserDetails {
   @Column(name = "removed_date")
   private LocalDateTime removedDate;
 
+  @ElementCollection(fetch = FetchType.EAGER)
+  @CollectionTable(name = "role", joinColumns = @JoinColumn(name = "user_id"))
+  @Column(name = "role")
+  private List<String> roles;
+
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return null;
+    return this.roles.stream()
+        .map(SimpleGrantedAuthority::new) // spring security에서 제공하는 role 기능 사용하기 위함.
+        .collect(Collectors.toList());
   }
 
   @Override
