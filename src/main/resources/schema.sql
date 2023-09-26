@@ -8,21 +8,15 @@ DROP TABLE IF EXISTS USER;
 -- 사용자
 CREATE TABLE `USER`
 (
-    `user_id`       BIGINT       NOT NULL COMMENT '사용자 번호',  -- 사용자 번호
+    `user_id`       BIGINT       NOT NULL AUTO_INCREMENT primary key COMMENT '사용자 번호',  -- 사용자 번호
     `login_id`      VARCHAR(255) NOT NULL COMMENT '로그인 아이디', -- 로그인 아이디
-    `password`      VARCHAR(50)  NOT NULL COMMENT '패스워드',    -- 패스워드
+    `password`      VARCHAR(255)  NOT NULL COMMENT '패스워드',    -- 패스워드
     `created_date`  DATETIME     NOT NULL COMMENT '가입 날짜',   -- 가입 날짜
     `modified_date` DATETIME     NULL COMMENT '수정 날짜',       -- 수정 날짜
     `removed_date`  DATETIME     NULL COMMENT '탈퇴 날짜'        -- 탈퇴 날짜
 )
     COMMENT '사용자';
 
--- 사용자
-ALTER TABLE `USER`
-    ADD CONSTRAINT `PK_USER` -- 사용자 기본키
-        PRIMARY KEY (
-                     `user_id` -- 사용자 번호
-            );
 
 -- 사용자 권한
 CREATE TABLE `ROLE`
