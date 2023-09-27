@@ -39,24 +39,17 @@ ALTER TABLE `ROLE`
 -- 펀딩 메이커
 CREATE TABLE `MAKER`
 (
-    `maker_id`                     BIGINT       NOT NULL COMMENT '메이커 번호', -- 메이커 번호
+    `maker_id`                     BIGINT       NOT NULL AUTO_INCREMENT primary key COMMENT '메이커 번호', -- 메이커 번호
     `business_registration_number` VARCHAR(255) NULL COMMENT '사업자등록번호',    -- 사업자등록번호
     `phone`                        VARCHAR(20)  NULL COMMENT '전화번호',       -- 전화번호
     `user_id`                      BIGINT       NOT NULL COMMENT '사용자 번호'  -- 사용자 번호
 )
     COMMENT '펀딩 메이커';
 
--- 펀딩 메이커
-ALTER TABLE `MAKER`
-    ADD CONSTRAINT `PK_MAKER` -- 펀딩 메이커 기본키
-        PRIMARY KEY (
-                     `maker_id` -- 메이커 번호
-            );
-
 -- 제품
 CREATE TABLE `PRODUCT`
 (
-    `product_id`    BIGINT       NOT NULL COMMENT '제품 번호',    -- 제품 번호
+    `product_id`    BIGINT       NOT NULL AUTO_INCREMENT primary key COMMENT '제품 번호',    -- 제품 번호
     `product_name`  VARCHAR(255) NOT NULL COMMENT '제품명',      -- 제품명
     `contents`      VARCHAR(255) NOT NULL COMMENT '제품 설명',    -- 제품 설명
     `price`         BIGINT       NOT NULL COMMENT '제품 가격',    -- 제품 가격
@@ -69,44 +62,23 @@ CREATE TABLE `PRODUCT`
 )
     COMMENT '제품';
 
--- 제품
-ALTER TABLE `PRODUCT`
-    ADD CONSTRAINT `PK_PRODUCT` -- 제품 기본키
-        PRIMARY KEY (
-                     `product_id` -- 제품 번호
-            );
-
 -- 팔로우
 CREATE TABLE `FOLLOW`
 (
-    `follow_id` BIGINT NOT NULL COMMENT '팔로우 번호', -- 팔로우 번호
+    `follow_id` BIGINT NOT NULL AUTO_INCREMENT primary key COMMENT '팔로우 번호', -- 팔로우 번호
     `user_id`   BIGINT NOT NULL COMMENT '사용자 번호', -- 사용자 번호
     `maker_id`  BIGINT NOT NULL COMMENT '메이커 번호'  -- 메이커 번호
 )
     COMMENT '팔로우';
 
--- 팔로우
-ALTER TABLE `FOLLOW`
-    ADD CONSTRAINT `PK_FOLLOW` -- 팔로우 기본키
-        PRIMARY KEY (
-                     `follow_id` -- 팔로우 번호
-            );
-
 -- 찜하기
 CREATE TABLE `WISH`
 (
-    `wish_id`    BIGINT NOT NULL COMMENT '찜하기 번호', -- 찜하기 번호
+    `wish_id`    BIGINT NOT NULL AUTO_INCREMENT primary key COMMENT '찜하기 번호', -- 찜하기 번호
     `user_id`    BIGINT NOT NULL COMMENT '사용자 번호', -- 사용자 번호
     `product_id` BIGINT NOT NULL COMMENT '제품 번호'   -- 제품 번호
 )
     COMMENT '찜하기';
-
--- 찜하기
-ALTER TABLE `WISH`
-    ADD CONSTRAINT `PK_WISH` -- 찜하기 기본키
-        PRIMARY KEY (
-                     `wish_id` -- 찜하기 번호
-            );
 
 -- 펀딩 메이커
 ALTER TABLE `MAKER`

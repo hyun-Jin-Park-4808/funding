@@ -24,13 +24,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
-        .httpBasic().disable()
+        .httpBasic().disable() // 기본 인증 로그인창 사용 안 함.
         .csrf().disable()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .sessionManagement() // 세션 관리 추가
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         // REST API로 JWT으로 토큰 인증방식 구현할 때 붙여줘야 하는 부분
         .and()
         .authorizeRequests()
-        .antMatchers("/**/signup", "/**/login").permitAll() // 회원가입, 로그인 시에는 모든 권한 허용
+        .antMatchers("/**/signup", "/**/login", "/auth/**").permitAll() // 회원가입, 로그인 시에는 모든 권한 허용
         .and()
         .addFilterBefore(this.authenticationFilter, UsernamePasswordAuthenticationFilter.class); // 필터 순서 정의
   }

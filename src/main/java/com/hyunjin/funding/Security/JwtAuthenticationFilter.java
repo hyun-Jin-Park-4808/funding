@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
-    String token = this.resolveTokenFromRequest(request);
+    String token = this.resolveTokenFromRequest(request); // 토큰 가져오기
 
     if (StringUtils.hasText(token) && this.tokenProvider.validateToken(token)) {
       // 토큰 가지고 있으면 토큰 유효성 검증
