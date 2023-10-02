@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MakerRepository extends JpaRepository<Maker, Long> {
 
-  Optional<Maker> findByBusinessRegistrationNumber(String businessRegistrationNumber);
-  Optional<Maker> findByPhone(String phone);
+  Optional<Maker> findByUser_UserId(long userId); // 외래키로 데이터 조회하기 위한 method 명 형식
 
   boolean existsByBusinessRegistrationNumber(String businessRegistrationNumber);
   boolean existsByPhone(String phone);
+
 
 }

@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -57,7 +59,6 @@ public class UserService implements UserDetailsService {
     return user1;
   }
 
-
   public User registerMakerAuthority(String loginId) {
     var user1 = this.userRepository.findByLoginId(loginId)
         .orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다."));
@@ -80,8 +81,7 @@ public class UserService implements UserDetailsService {
   public Maker registerMakerByBRM(String loginId, String businessRegistrationNumber) {
     boolean exists = this.makerRepository.existsByBusinessRegistrationNumber(
         businessRegistrationNumber);
-    var user = this.userRepository.findByLoginId(loginId);
-    long userId = user.get().getUserId();
+    Optional<User> user = this.userRepository.findByLoginId(loginId);
 
     if (exists) { // 사업자등록번호 중복 검사
       throw new AlreadyExistUserException();
@@ -89,15 +89,14 @@ public class UserService implements UserDetailsService {
 
     return makerRepository.save(Maker.builder()
         .businessRegistrationNumber(businessRegistrationNumber)
-        .userId(userId)
+        .user(user.get())
         .build());
   }
 
   public Maker registerMakerByPhone(String loginId, String phone) {
     boolean exists = this.makerRepository.existsByPhone(
         phone);
-    var user = this.userRepository.findByLoginId(loginId);
-    long userId = user.get().getUserId();
+    Optional<User> user = this.userRepository.findByLoginId(loginId);
 
     if (exists) { // 전화번호 중복 검사
       throw new AlreadyExistUserException();
@@ -105,7 +104,7 @@ public class UserService implements UserDetailsService {
 
     return makerRepository.save(Maker.builder()
         .phone(phone)
-        .userId(userId)
+        .user(user.get())
         .build());
   }
 }

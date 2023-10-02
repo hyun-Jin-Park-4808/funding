@@ -5,6 +5,7 @@ import com.hyunjin.funding.dto.Auth;
 import com.hyunjin.funding.dto.MakerInput;
 import com.hyunjin.funding.service.UserService;
 import java.security.Principal;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,7 @@ public class AuthController {
   }
 
   @PostMapping("/maker/business")
-  //@PreAuthorize("hasRole('SUPPORTER')") // 헤더에 정보 등록
+  @PreAuthorize("hasRole('SUPPORTER')") // 헤더에 정보 등록
   public ResponseEntity<?> signUpMakerBusiness(Principal principal, @RequestBody MakerInput makerInput) {
 
     String loginId = principal.getName();
