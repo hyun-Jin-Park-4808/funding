@@ -78,7 +78,8 @@ public class UserService implements UserDetailsService {
     return result;
   }
 
-  public Maker registerMakerByBRM(String loginId, String businessRegistrationNumber) {
+  public Maker registerMakerByBRM(String loginId, String companyName,
+      String businessRegistrationNumber) {
     boolean exists = this.makerRepository.existsByBusinessRegistrationNumber(
         businessRegistrationNumber);
     Optional<User> user = this.userRepository.findByLoginId(loginId);
@@ -88,12 +89,13 @@ public class UserService implements UserDetailsService {
     }
 
     return makerRepository.save(Maker.builder()
+        .companyName(companyName)
         .businessRegistrationNumber(businessRegistrationNumber)
         .user(user.get())
         .build());
   }
 
-  public Maker registerMakerByPhone(String loginId, String phone) {
+  public Maker registerMakerByPhone(String loginId, String companyName, String phone) {
     boolean exists = this.makerRepository.existsByPhone(
         phone);
     Optional<User> user = this.userRepository.findByLoginId(loginId);
@@ -103,6 +105,7 @@ public class UserService implements UserDetailsService {
     }
 
     return makerRepository.save(Maker.builder()
+        .companyName(companyName)
         .phone(phone)
         .user(user.get())
         .build());

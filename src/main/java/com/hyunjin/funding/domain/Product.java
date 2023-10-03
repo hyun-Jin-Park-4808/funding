@@ -31,6 +31,10 @@ public class Product {
   @Column(name = "product_id")
   private Long productId;
 
+  @Column(name = "company_name")
+  private String companyName;
+
+
   @Column(name = "product_name")
   private String productName;
 

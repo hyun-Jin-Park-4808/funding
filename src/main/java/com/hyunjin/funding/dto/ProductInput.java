@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 public class ProductInput {
 
+  private String companyName;
   private String productName;
   private String contents;
   private Long price;
@@ -19,6 +20,7 @@ public class ProductInput {
 
   public Product toEntity(Maker maker) {
     return Product.builder()
+        .companyName(maker.getCompanyName())
         .productName(this.productName)
         .contents(this.contents)
         .price(this.price)

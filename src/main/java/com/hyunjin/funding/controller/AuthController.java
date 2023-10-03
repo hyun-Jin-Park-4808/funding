@@ -47,7 +47,8 @@ public class AuthController {
     this.userService.registerMakerAuthority(loginId);
 
     // 메이커 테이블에 데이터 추가
-    var result = this.userService.registerMakerByBRM(loginId, makerInput.getBusinessRegistrationNumber());
+    var result = this.userService.registerMakerByBRM(loginId, makerInput.getCompanyName(),
+        makerInput.getBusinessRegistrationNumber());
     return ResponseEntity.ok(result);
   }
 
@@ -60,7 +61,8 @@ public class AuthController {
     this.userService.registerMakerAuthority(loginId);
 
     // 메이커 테이블에 데이터 추가
-    var result = this.userService.registerMakerByPhone(loginId, makerInput.getPhone());
+    var result = this.userService.registerMakerByPhone(loginId, makerInput.getCompanyName(),
+        makerInput.getPhone());
     return ResponseEntity.ok(result);
   }
 }

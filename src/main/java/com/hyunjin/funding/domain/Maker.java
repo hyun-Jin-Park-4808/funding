@@ -33,6 +33,9 @@ public class Maker {
   @Column(name = "maker_id")
   private Long makerId;
 
+  @Column(name = "company_name")
+  private String companyName;
+
   @Column(name = "business_registration_number")
   private String businessRegistrationNumber;
 
