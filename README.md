@@ -44,7 +44,7 @@
   - 사용자는 펀딩 메이커를 팔로우할 수 있다.
  
 ## ERD
-![image](Exerd.png)
+![image](exerd.png)
 
 
 ## Trouble Shooting
