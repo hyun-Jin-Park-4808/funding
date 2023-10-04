@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 public class MakerInput {
+  private String companyName;
   private String businessRegistrationNumber;
   private String phone;
 }
