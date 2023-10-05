@@ -34,7 +34,6 @@ public class Product {
   @Column(name = "company_name")
   private String companyName;
 
-
   @Column(name = "product_name")
   private String productName;
 
@@ -51,7 +50,7 @@ public class Product {
   private Long maxQuantity;
 
   @Column(name = "success_rate")
-  private Long successRate;
+  private String successRate;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
   @Column(name = "start_date")

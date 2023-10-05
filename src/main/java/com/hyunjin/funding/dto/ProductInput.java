@@ -16,7 +16,6 @@ public class ProductInput {
   private Long maxQuantity;
   private LocalDateTime startDate;
   private LocalDateTime endDate;
-  private Maker maker;
 
   public Product toEntity(Maker maker) {
     return Product.builder()

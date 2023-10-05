@@ -2,7 +2,8 @@ package com.hyunjin.funding.service;
 
 import com.hyunjin.funding.domain.Maker;
 import com.hyunjin.funding.domain.User;
-import com.hyunjin.funding.dto.Auth;
+import com.hyunjin.funding.dto.SignIn;
+import com.hyunjin.funding.dto.SignUp;
 import com.hyunjin.funding.exception.impl.AlreadyExistUserException;
 import com.hyunjin.funding.repository.MakerRepository;
 import com.hyunjin.funding.repository.UserRepository;
@@ -11,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,10 +19,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
 @AllArgsConstructor
+@Transactional(readOnly = true)
 public class UserService implements UserDetailsService {
 
   private final UserRepository userRepository;
@@ -35,7 +37,8 @@ public class UserService implements UserDetailsService {
         .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 ID 입니다. -> " + loginId));
   }
 
-  public User register(Auth.SighUp user) { // 회원 가입 메서드
+  @Transactional
+  public User register(SignUp user) { // 회원 가입 메서드
     boolean exists = this.userRepository.existsByLoginId(user.getLoginId());
 
     if (exists) { // 아이디 중복 검사
@@ -48,7 +51,7 @@ public class UserService implements UserDetailsService {
 
   }
 
-  public User authenticate(Auth.SighIn user) { // login 시 아이디, 비번 검증하기 위한 메서드
+  public User authenticate(SignIn user) { // login 시 아이디, 비번 검증하기 위한 메서드
     var user1 = this.userRepository.findByLoginId(user.getLoginId())
         .orElseThrow(() -> new RuntimeException("존재하지 않는 ID 입니다."));
 
@@ -59,6 +62,7 @@ public class UserService implements UserDetailsService {
     return user1;
   }
 
+  @Transactional
   public User registerMakerAuthority(String loginId) {
     var user1 = this.userRepository.findByLoginId(loginId)
         .orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다."));
@@ -78,6 +82,7 @@ public class UserService implements UserDetailsService {
     return result;
   }
 
+  @Transactional
   public Maker registerMakerByBRM(String loginId, String companyName,
       String businessRegistrationNumber) {
     boolean exists = this.makerRepository.existsByBusinessRegistrationNumber(
@@ -95,6 +100,7 @@ public class UserService implements UserDetailsService {
         .build());
   }
 
+  @Transactional
   public Maker registerMakerByPhone(String loginId, String companyName, String phone) {
     boolean exists = this.makerRepository.existsByPhone(
         phone);

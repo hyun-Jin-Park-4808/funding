@@ -1,11 +1,13 @@
 package com.hyunjin.funding.controller;
 
 import com.hyunjin.funding.Security.TokenProvider;
-import com.hyunjin.funding.dto.Auth;
+import com.hyunjin.funding.domain.Maker;
+import com.hyunjin.funding.domain.User;
+import com.hyunjin.funding.dto.SignIn;
 import com.hyunjin.funding.dto.MakerInput;
+import com.hyunjin.funding.dto.SignUp;
 import com.hyunjin.funding.service.UserService;
 import java.security.Principal;
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +27,13 @@ public class AuthController {
   private final TokenProvider tokenProvider;
 
   @PostMapping("/signup")
-  public ResponseEntity<?> signUp(@RequestBody Auth.SighUp request) {
+  public ResponseEntity<User> signUp(@RequestBody SignUp request) {
     var result = this.userService.register(request);
     return ResponseEntity.ok(result);
   }
 
   @PostMapping("/login")
-  public ResponseEntity<?> login(@RequestBody Auth.SighIn request) {
+  public ResponseEntity<String> login(@RequestBody SignIn request) {
     var user = this.userService.authenticate(request);
     var token = this.tokenProvider.generateToken(user.getLoginId(), user.getRoles());
     log.info("user login : " + request.getLoginId());
@@ -40,7 +42,7 @@ public class AuthController {
 
   @PostMapping("/maker/business")
   @PreAuthorize("hasRole('SUPPORTER')") // 헤더에 정보 등록
-  public ResponseEntity<?> signUpMakerBusiness(Principal principal, @RequestBody MakerInput makerInput) {
+  public ResponseEntity<Maker> signUpMakerBusiness(Principal principal, @RequestBody MakerInput makerInput) {
 
     String loginId = principal.getName();
     // 메이커 권한 추가
@@ -54,7 +56,7 @@ public class AuthController {
 
   @PostMapping("/maker/phone")
   @PreAuthorize("hasRole('SUPPORTER')") // 헤더에 정보 등록
-  public ResponseEntity<?> signUpMakerPhone(Principal principal, @RequestBody MakerInput makerInput) {
+  public ResponseEntity<Maker> signUpMakerPhone(Principal principal, @RequestBody MakerInput makerInput) {
 
     String loginId = principal.getName();
     // 메이커 권한 추가

@@ -5,16 +5,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Data;
 
-public class Auth {
+@Data
+public class SignUp {
 
-  @Data
-  public static class SighIn { // 로그인
-    private String loginId;
-    private String password;
-  }
-
-  @Data
-  public static class SighUp { // 회원가입
     private String loginId;
     private String password;
     private List<String> roles;
@@ -27,5 +20,4 @@ public class Auth {
           .createdDate(LocalDateTime.now())
           .build();
     }
-  }
 }
