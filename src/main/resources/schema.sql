@@ -59,7 +59,7 @@ CREATE TABLE `PRODUCT`
     `price`         BIGINT       NOT NULL COMMENT '제품 가격',                            -- 제품 가격
     `success_price` BIGINT       NOT NULL COMMENT '펀딩 성공 금액',                         -- 펀딩 성공 금액
     `max_quantity`  BIGINT       NOT NULL COMMENT '최대 판매 수량',                         -- 최대 판매 수량
-    `success_rate`  BIGINT       NULL COMMENT '펀딩 성공률',                               -- 펀딩 성공률
+    `success_rate`  VARCHAR(10)      NULL COMMENT '펀딩 성공률',                               -- 펀딩 성공률
     `start_date`    DATETIME     NOT NULL COMMENT '펀딩 시작일',                           -- 펀딩 시작일
     `end_date`      DATETIME     NOT NULL COMMENT '펀딩 종료일',                           -- 펀딩 종료일
     `maker_id`      BIGINT       NOT NULL COMMENT '메이커 번호'                            -- 메이커 번호

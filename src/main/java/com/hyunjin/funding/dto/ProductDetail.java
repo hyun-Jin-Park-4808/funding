@@ -17,9 +17,10 @@ public class ProductDetail {
   private String companyName;
   private String productName;
   private String contents;
-  private Long price;
-  private Long successPrice;
-  private Long maxQuantity;
+  private long price;
+  private long successPrice;
+  private long maxQuantity;
+  private String successRate;
   private LocalDateTime startDate;
   private LocalDateTime endDate;
 
@@ -31,6 +32,7 @@ public class ProductDetail {
         .price(product.getPrice())
         .successPrice(product.getSuccessPrice())
         .maxQuantity(product.getMaxQuantity())
+        .successRate(product.getSuccessRate())
         .startDate(product.getStartDate())
         .endDate(product.getEndDate())
         .build();

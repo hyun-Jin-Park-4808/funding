@@ -1,9 +1,6 @@
 package com.hyunjin.funding.service;
 
-import com.hyunjin.funding.domain.Maker;
 import com.hyunjin.funding.domain.Product;
-import com.hyunjin.funding.domain.User;
-import com.hyunjin.funding.dto.Auth;
 import com.hyunjin.funding.dto.ProductDetail;
 import com.hyunjin.funding.dto.ProductInfo;
 import com.hyunjin.funding.dto.ProductInput;
@@ -12,28 +9,24 @@ import com.hyunjin.funding.repository.MakerRepository;
 import com.hyunjin.funding.repository.ProductRepository;
 import com.hyunjin.funding.repository.UserRepository;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
 @AllArgsConstructor
+@Transactional(readOnly = true)
 public class ProductService {
 
   private final ProductRepository productRepository;
   private final MakerRepository makerRepository;
   private final UserRepository userRepository;
 
+  @Transactional
   public Product register(String loginId, ProductInput productInput) { // 제품 등록 메서드
     var user = userRepository.findByLoginId(loginId);
     var userId = user.get().getUserId();
@@ -50,49 +43,57 @@ public class ProductService {
 
   public List<ProductInfo> getProductListScheduled() {
     return productRepository.findByStartDateAfterOrderByStartDateAsc(LocalDateTime.now())
-        .stream().map(Product
+        .stream().map((product)
             -> ProductInfo.builder()
-            .productName(Product.getProductName())
-            .price(Product.getPrice())
-            .startDate(Product.getStartDate())
-            .endDate(Product.getEndDate())
+            .companyName(product.getCompanyName())
+            .productName(product.getProductName())
+            .price(product.getPrice())
+            .successRate(product.getSuccessRate())
+            .startDate(product.getStartDate())
+            .endDate(product.getEndDate())
             .build()).collect(Collectors.toList());
   }
 
-  public List<ProductInfo> getProductListProceedingOrderByStartDt() {
+  public List<ProductInfo> getProductListProceedingOrderByStartDt() { // 오름차순 정렬
     return productRepository
         .findByStartDateBeforeAndEndDateAfterOrderByStartDateAsc(LocalDateTime.now(), LocalDateTime.now())
-        .stream().map(Product
+        .stream().map((product)
             -> ProductInfo.builder()
-            .productName(Product.getProductName())
-            .price(Product.getPrice())
-            .startDate(Product.getStartDate())
-            .endDate(Product.getEndDate())
+            .companyName(product.getCompanyName())
+            .productName(product.getProductName())
+            .price(product.getPrice())
+            .successRate(product.getSuccessRate())
+            .startDate(product.getStartDate())
+            .endDate(product.getEndDate())
             .build()).collect(Collectors.toList());
   }
 
 
-  public List<ProductInfo> getProductListProceedingOrderBySuccessRate() {
+  public List<ProductInfo> getProductListProceedingOrderBySuccessRate() { // 내림차순 정렬
     return productRepository
-        .findByStartDateBeforeAndEndDateAfterOrderBySuccessRateAsc(LocalDateTime.now(), LocalDateTime.now())
-        .stream().map(Product
+        .findByStartDateBeforeAndEndDateAfterOrderBySuccessRateDesc(LocalDateTime.now(), LocalDateTime.now())
+        .stream().map((product)
             -> ProductInfo.builder()
-            .productName(Product.getProductName())
-            .price(Product.getPrice())
-            .startDate(Product.getStartDate())
-            .endDate(Product.getEndDate())
+            .companyName(product.getCompanyName())
+            .productName(product.getProductName())
+            .price(product.getPrice())
+            .successRate(product.getSuccessRate())
+            .startDate(product.getStartDate())
+            .endDate(product.getEndDate())
             .build()).collect(Collectors.toList());
   }
 
 
   public List<ProductInfo> getProductListEnded() {
     return productRepository.findByEndDateBeforeOrderByEndDateDesc(LocalDateTime.now())
-        .stream().map(Product
+        .stream().map((product)
             -> ProductInfo.builder()
-            .productName(Product.getProductName())
-            .price(Product.getPrice())
-            .startDate(Product.getStartDate())
-            .endDate(Product.getEndDate())
+            .companyName(product.getCompanyName())
+            .productName(product.getProductName())
+            .price(product.getPrice())
+            .successRate(product.getSuccessRate())
+            .startDate(product.getStartDate())
+            .endDate(product.getEndDate())
             .build()).collect(Collectors.toList());
   }
 

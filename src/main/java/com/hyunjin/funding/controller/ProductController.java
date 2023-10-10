@@ -1,12 +1,12 @@
 package com.hyunjin.funding.controller;
 
-import com.hyunjin.funding.Security.TokenProvider;
-import com.hyunjin.funding.dto.Auth;
-import com.hyunjin.funding.dto.MakerInput;
+import com.hyunjin.funding.domain.Product;
+import com.hyunjin.funding.dto.ProductDetail;
+import com.hyunjin.funding.dto.ProductInfo;
 import com.hyunjin.funding.dto.ProductInput;
 import com.hyunjin.funding.service.ProductService;
-import com.hyunjin.funding.service.UserService;
 import java.security.Principal;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -28,24 +28,25 @@ public class ProductController {
 
   @PostMapping("/register") // 제품 등록
   @PreAuthorize("hasRole('MAKER')") // 헤더에 정보 등록
-  public ResponseEntity<?> register(Principal principal, @RequestBody ProductInput productInput) {
+  public ResponseEntity<Product> register(Principal principal, @RequestBody ProductInput productInput) {
 
-    String userId = principal.getName();
+    String loginId = principal.getName();
     // 상품 등록
-    var result = this.productService.register(userId, productInput);
+    var result = this.productService.register(loginId, productInput);
     return ResponseEntity.ok(result);
   }
 
+
   @GetMapping("/list/scheduled") // 펀딩 진행 예정 상품 목록 조회
-  public ResponseEntity<?> productListScheduled() {
+  public ResponseEntity<List<ProductInfo>> productListScheduled() {
 
     var result = productService.getProductListScheduled();
 
     return ResponseEntity.ok(result);
   }
 
-  @GetMapping("/list/proceeding/start_date") // 펀딩 진행중 상품 목록 조회(시작날짜순 정렬)
-  public ResponseEntity<?> productListProceedingOrderByStartDt() {
+  @GetMapping("/list/proceeding-start-date") // 펀딩 진행중 상품 목록 조회(시작날짜순 정렬)
+  public ResponseEntity<List<ProductInfo>> productListProceedingOrderByStartDt() {
 
     var result = productService.getProductListProceedingOrderByStartDt();
 
@@ -53,8 +54,8 @@ public class ProductController {
   }
 
 
-  @GetMapping("/list/proceeding/success_rate") // 펀딩 진행중 상품 목록 조회(펀딩 성공률순 정렬)
-  public ResponseEntity<?> productListProceedingOrderBySuccessRate() {
+  @GetMapping("/list/proceeding-success-rate") // 펀딩 진행중 상품 목록 조회(펀딩 성공률순 정렬)
+  public ResponseEntity<List<ProductInfo>> productListProceedingOrderBySuccessRate() {
 
     var result = productService.getProductListProceedingOrderBySuccessRate();
 
@@ -62,15 +63,15 @@ public class ProductController {
   }
 
   @GetMapping("/list/end")
-  public ResponseEntity<?> productListEnded() { // 펀딩 진행 종료 상품 목록 조회(최근 종료 날짜순 정렬)
+  public ResponseEntity<List<ProductInfo>> productListEnded() { // 펀딩 진행 종료 상품 목록 조회(최근 종료 날짜순 정렬)
 
     var result = productService.getProductListEnded();
 
     return ResponseEntity.ok(result);
   }
 
-  @GetMapping("/list/detail/{id}")
-  public ResponseEntity<?> detail(@PathVariable(value = "id") long id) {
+  @GetMapping("/detail/{id}")
+  public ResponseEntity<ProductDetail> detail(@PathVariable(value = "id") long id) {
 
     var result = productService.getDetails(id);
 
