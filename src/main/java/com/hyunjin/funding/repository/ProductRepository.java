@@ -13,6 +13,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
   boolean existsByProductName(String productName);
 
   Optional<Product> findByProductId(long id);
+  Optional<Product> findByProductIdAndMaker_MakerId(long productId, long makerId);
+
 
   List<Product> findByStartDateAfterOrderByStartDateAsc(LocalDateTime today);
   List<Product> findByStartDateBeforeAndEndDateAfterOrderByStartDateAsc(LocalDateTime today1, LocalDateTime today2);

@@ -20,7 +20,7 @@ public class ProductDetail {
   private long price;
   private long successPrice;
   private long maxQuantity;
-  private String successRate;
+  private double successRate;
   private LocalDateTime startDate;
   private LocalDateTime endDate;
 

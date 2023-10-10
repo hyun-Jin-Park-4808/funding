@@ -1,6 +1,8 @@
 package com.hyunjin.funding.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,35 +12,27 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
+@Builder
 @Getter
 @Setter
-@Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "TRANSACTION")
-public class Transaction {
+@Entity(name = "FOLLOW")
+public class Follow {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "transaction_id")
-  private Long transactionId;
-
-  @Column(name = "account_number")
-  private String accountNumber;
-
-  @Column(name = "account_password")
-  private String accountPassword;
-
-  @Column(name = "is_paid") // 결제 여부
-  private boolean isPaid;
-
-  @Column(name = "is_participating") // 펀딩 참여/취소 여부
-  private boolean isParticipating;
+  @Column(name = "follow_id")
+  private Long followId;
 
   @JsonIgnore
   @ManyToOne(fetch = FetchType.LAZY)
@@ -47,6 +41,6 @@ public class Transaction {
 
   @JsonIgnore
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "product_id")
-  private Product product;
+  @JoinColumn (name = "maker_id")
+  private Maker maker;
 }

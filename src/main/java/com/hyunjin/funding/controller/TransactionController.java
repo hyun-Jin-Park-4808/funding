@@ -4,6 +4,7 @@ import com.hyunjin.funding.domain.Transaction;
 import com.hyunjin.funding.dto.TransactionInput;
 import com.hyunjin.funding.service.TransactionService;
 import java.security.Principal;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,6 +42,20 @@ public class TransactionController {
     String loginId = principal.getName();
 
     var result = transactionService.fundingCancellation(loginId, productId);
+
+    return ResponseEntity.ok(result);
+  }
+/**
+ 결제 api(실제 결제 시스템 도입은 금액 지불 문제 등이 있어 결제 상태만 바꾸는 수준의 Sutb API로 구성)
+ */
+  @PostMapping("/payment/{product_id}")
+  @PreAuthorize("hasRole('MAKER')")
+  public ResponseEntity<List<Transaction>> payment(Principal principal,
+      @PathVariable(value = "product_id") long productId) {
+
+    String loginId = principal.getName();
+
+    var result = transactionService.payment(loginId, productId);
 
     return ResponseEntity.ok(result);
   }

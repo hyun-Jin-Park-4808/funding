@@ -1,6 +1,6 @@
 package com.hyunjin.funding.Security;
 
-import com.hyunjin.funding.service.UserService;
+import com.hyunjin.funding.service.AuthService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -21,7 +21,7 @@ public class TokenProvider {
 
   private static final long TOKEN_EXPIRE_TIME = 1000 * 60 * 60; // 1 hour
   private static final String KEY_ROLES = "roles";
-  private final UserService userService;
+  private final AuthService authService;
 
   @Value("{spring.jwt.secret}") // springframework에 있는 Value로 import!
   private String secretKey; // application.yml 파일에 secretKey 저장됨.
@@ -55,7 +55,7 @@ public class TokenProvider {
 
   // jwt를 스프링에서 지원해주는 토큰 형태로 바꿔서 사용자 정보와 권한 정보를 가져옴.
   public Authentication getAuthentication(String jwt) {
-    UserDetails userDetails = this.userService.loadUserByUsername(this.getLoginId(jwt));
+    UserDetails userDetails = this.authService.loadUserByUsername(this.getLoginId(jwt));
     return new UsernamePasswordAuthenticationToken(
         userDetails, "", userDetails.getAuthorities());
   }

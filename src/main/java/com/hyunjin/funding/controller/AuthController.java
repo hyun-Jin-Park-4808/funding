@@ -6,7 +6,7 @@ import com.hyunjin.funding.domain.User;
 import com.hyunjin.funding.dto.SignIn;
 import com.hyunjin.funding.dto.MakerInput;
 import com.hyunjin.funding.dto.SignUp;
-import com.hyunjin.funding.service.UserService;
+import com.hyunjin.funding.service.AuthService;
 import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,18 +23,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
 
-  private final UserService userService;
+  private final AuthService authService;
   private final TokenProvider tokenProvider;
 
   @PostMapping("/signup")
   public ResponseEntity<User> signUp(@RequestBody SignUp request) {
-    var result = this.userService.register(request);
+    var result = this.authService.register(request);
     return ResponseEntity.ok(result);
   }
 
   @PostMapping("/login")
   public ResponseEntity<String> login(@RequestBody SignIn request) {
-    var user = this.userService.authenticate(request);
+    var user = this.authService.authenticate(request);
     var token = this.tokenProvider.generateToken(user.getLoginId(), user.getRoles());
     log.info("user login : " + request.getLoginId());
     return ResponseEntity.ok(token);
@@ -46,10 +46,10 @@ public class AuthController {
 
     String loginId = principal.getName();
     // 메이커 권한 추가
-    this.userService.registerMakerAuthority(loginId);
+    this.authService.registerMakerAuthority(loginId);
 
     // 메이커 테이블에 데이터 추가
-    var result = this.userService.registerMakerByBRM(loginId, makerInput.getCompanyName(),
+    var result = this.authService.registerMakerByBRM(loginId, makerInput.getCompanyName(),
         makerInput.getBusinessRegistrationNumber());
     return ResponseEntity.ok(result);
   }
@@ -60,10 +60,10 @@ public class AuthController {
 
     String loginId = principal.getName();
     // 메이커 권한 추가
-    this.userService.registerMakerAuthority(loginId);
+    this.authService.registerMakerAuthority(loginId);
 
     // 메이커 테이블에 데이터 추가
-    var result = this.userService.registerMakerByPhone(loginId, makerInput.getCompanyName(),
+    var result = this.authService.registerMakerByPhone(loginId, makerInput.getCompanyName(),
         makerInput.getPhone());
     return ResponseEntity.ok(result);
   }

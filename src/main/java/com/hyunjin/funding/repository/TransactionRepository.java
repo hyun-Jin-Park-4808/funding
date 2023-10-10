@@ -13,5 +13,6 @@ import org.springframework.stereotype.Repository;
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
   Optional<Transaction> findByUser_UserIdAndProduct_ProductId(long userId, long productId);
 
-  long countByProduct_ProductIdAndFundingStatus(long productId, boolean trueCheck);
+  Optional<List<Transaction>> findAllByProduct_ProductId(long productId);
+  long countByProduct_ProductIdAndIsParticipating(long productId, boolean trueCheck);
 }
