@@ -55,8 +55,6 @@
 - Java
 - SpringBoot
 - MySQL
-- Redis
 - JPA
 - JWT
-- Oauth2.0
 - Spring Security
