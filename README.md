@@ -58,3 +58,4 @@
 - JPA
 - JWT
 - Spring Security
+- Swagger
