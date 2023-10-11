@@ -28,7 +28,7 @@ public class AuthController {
   private final TokenProvider tokenProvider;
 
   @ApiOperation(value = "회원가입 api입니다.",
-      notes = "roles에는 [SUPPORTER] 혹은 [SUPPORTER, MAKER]를 지정할 수 있습니다.")
+      notes = "roles에는 [ROLE_SUPPORTER]를 입력하시면 됩니다.")
   @PostMapping("/signup")
   public ResponseEntity<User> signUp(@RequestBody SignUp request) {
     var result = this.authService.register(request);
