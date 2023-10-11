@@ -3,6 +3,7 @@ package com.hyunjin.funding.controller;
 import com.hyunjin.funding.domain.Follow;
 import com.hyunjin.funding.domain.Wish;
 import com.hyunjin.funding.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,8 @@ public class UserController {
 
   private final UserService userService;
 
+  @ApiOperation(value = "원하는 상품을 찜하기 위한 api입니다.\n "
+      + "토큰 정보가 필요합니다.")
   @PostMapping("/wish/{product_id}") // 찜하기 기능
   @PreAuthorize("hasRole('SUPPORTER')")
   public ResponseEntity<Wish> wish(Principal principal,
@@ -32,6 +35,8 @@ public class UserController {
     return ResponseEntity.ok(result);
   }
 
+  @ApiOperation(value = "찜하기 취소를 위한 api입니다.\n "
+      + "토큰 정보가 필요합니다.")
   @DeleteMapping("/wish/{product_id}") // 찜하기 취소 기능
   @PreAuthorize("hasRole('SUPPORTER')")
   public void deleteWish(Principal principal,
@@ -41,6 +46,8 @@ public class UserController {
     userService.deleteWish(loginId, productId);
   }
 
+  @ApiOperation(value = "원하는 메이커를 팔로우하기 위한 api입니다.\n "
+      + "토큰 정보가 필요합니다.")
   @PostMapping("/follow/{maker_id}") // 팔로우 기능
   @PreAuthorize("hasRole('SUPPORTER')")
   public ResponseEntity<Follow> follow(Principal principal,
@@ -53,6 +60,8 @@ public class UserController {
     return ResponseEntity.ok(result);
   }
 
+  @ApiOperation(value = "메이커 팔로우 취소를 위한 api입니다.\n "
+      + "토큰 정보가 필요합니다.")
   @DeleteMapping("/follow/{maker_id}") // 팔로우 취소 기능
   @PreAuthorize("hasRole('SUPPORTER')")
   public void deleteFollow(Principal principal,
