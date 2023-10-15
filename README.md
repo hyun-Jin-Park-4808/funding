@@ -44,7 +44,7 @@
   - 사용자는 펀딩 메이커를 팔로우할 수 있다.
  
 ## ERD
-![image](eXERD.png)
+![image](Exerd.png)
 
 
 ## Trouble Shooting
@@ -56,3 +56,7 @@
 - SpringBoot
 - MySQL
 - Redis
+- JPA
+- JWT
+- Oauth2.0
+- Spring Security
