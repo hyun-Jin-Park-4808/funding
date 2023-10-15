@@ -15,8 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Slf4j
 @Configuration
 @EnableWebSecurity
-// api에 권한 어노테이션을 달아서 api 접근 권한 설정 가능하도록 함.
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true) // api 접근 권한 설정 가능하도록 함.
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   private final JwtAuthenticationFilter authenticationFilter;

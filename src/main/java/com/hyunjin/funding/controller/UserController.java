@@ -25,7 +25,7 @@ public class UserController {
       + "토큰 정보가 필요합니다.")
   @PostMapping("/wish/{product_id}") // 찜하기 기능
   @PreAuthorize("hasRole('SUPPORTER')")
-  public ResponseEntity<Wish> wish(Principal principal,
+  public ResponseEntity<Wish> addWish(Principal principal,
       @PathVariable(value = "product_id") long productId) {
 
     String loginId = principal.getName();
@@ -50,7 +50,7 @@ public class UserController {
       + "토큰 정보가 필요합니다.")
   @PostMapping("/follow/{maker_id}") // 팔로우 기능
   @PreAuthorize("hasRole('SUPPORTER')")
-  public ResponseEntity<Follow> follow(Principal principal,
+  public ResponseEntity<Follow> addFollow(Principal principal,
       @PathVariable(value = "maker_id") long makerId) {
 
     String loginId = principal.getName();
