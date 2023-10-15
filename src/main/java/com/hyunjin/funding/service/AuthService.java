@@ -4,6 +4,7 @@ import com.hyunjin.funding.domain.Maker;
 import com.hyunjin.funding.domain.User;
 import com.hyunjin.funding.dto.SignIn;
 import com.hyunjin.funding.dto.SignUp;
+import com.hyunjin.funding.dto.type.Authority;
 import com.hyunjin.funding.exception.impl.AlreadyExistUserException;
 import com.hyunjin.funding.repository.MakerRepository;
 import com.hyunjin.funding.repository.UserRepository;
@@ -13,6 +14,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -39,6 +42,8 @@ public class AuthService implements UserDetailsService {
 
   @Transactional
   public User register(SignUp user) { // 회원 가입 메서드
+    List<String> rolesArr = new ArrayList<>();
+    rolesArr.add(String.valueOf(Authority.ROLE_SUPPORTER));
     boolean exists = this.userRepository.existsByLoginId(user.getLoginId());
 
     if (exists) { // 아이디 중복 검사
@@ -46,7 +51,7 @@ public class AuthService implements UserDetailsService {
     }
 
     user.setPassword(this.passwordEncoder.encode(user.getPassword())); // 비밀번호 인코딩해서 저장
-    var result = this.userRepository.save(user.toEntity()); // 컴파일러가 변수타입 추정(var)
+    var result = this.userRepository.save(user.toEntity(rolesArr)); // 컴파일러가 변수타입 추정(var)
     return result;
 
   }

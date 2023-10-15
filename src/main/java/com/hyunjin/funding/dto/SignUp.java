@@ -10,13 +10,12 @@ public class SignUp {
 
     private String loginId;
     private String password;
-    private List<String> roles;
 
-    public User toEntity() {
+    public User toEntity(List<String> rolesArr) {
       return User.builder()
           .loginId(this.loginId)
           .password(this.password)
-          .roles(this.roles)
+          .roles(rolesArr)
           .createdDate(LocalDateTime.now())
           .build();
     }

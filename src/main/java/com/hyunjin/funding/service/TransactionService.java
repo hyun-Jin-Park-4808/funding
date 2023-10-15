@@ -80,22 +80,17 @@ public class TransactionService {
     var product = productRepository.findByProductId(productId)
         .orElseThrow(() -> new ProductNotFoundException());
 
-    // 거래 존재하는지 검사
     var transaction = transactionRepository
-        .findByUser_UserIdAndProduct_ProductId(user.get().getUserId(), productId);
+        .findByUser_UserIdAndProduct_ProductId(user.get().getUserId(), productId)
+        .orElseThrow(() -> new TransactionNotFoundException());
 
-    if (transaction.isPresent()) {
-      if (!transaction.get().isParticipating()) { // 펀딩 취소 중복 검사
-        throw new AlreadyCancelFundingException();
-      } else { // 펀딩 상태 false로 바꾸기
-        transaction.get().setParticipating(false);
-      }
-    } else { // 거래가 존재하지 않을 때 예외 처리
-      throw new TransactionNotFoundException();
+    if (!transaction.isParticipating()) { // 펀딩 취소 중복 검사
+      throw new AlreadyCancelFundingException();
     }
+    transaction.setParticipating(false); // 펀딩 상태 false로 바꾸기
     updateSuccessRate(productId); // 펀딩 성공률 계산
 
-    return transaction.get();
+    return transaction;
   }
 
   public List<Transaction> payment(String loginId, long productId) {
@@ -104,13 +99,13 @@ public class TransactionService {
     var product = productRepository
         .findByProductIdAndMaker_MakerId(productId, maker.get().getMakerId())
         .orElseThrow(() -> new ProductNotFoundException());
-    if(product.getEndDate().isAfter(LocalDateTime.now())) {
+    if (product.getEndDate().isAfter(LocalDateTime.now())) {
       throw new NotFinishFundingException();
     } else if (product.getSuccessRate() < 100.0) {
       throw new FailFundingException();
     }
     List<Transaction> transactions =
-        transactionRepository.findAllByProduct_ProductId(productId).get();
+        transactionRepository.findAllByProductProductId(productId).get();
     for (Transaction transaction : transactions) {
       if (transaction.isParticipating()) {
         transaction.setPaid(true);

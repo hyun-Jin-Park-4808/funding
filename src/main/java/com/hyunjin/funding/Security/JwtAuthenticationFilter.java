@@ -21,7 +21,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
  JWtAuthenticationFilter에서 OnceperRequestFilter를 정의해주면, 한 요청당 한 번씩 이 필터를 거치게 된다.
  요청이 들어올 때마다 토큰이 포함되었는 지를 확인해서 그 토큰이 유효한지 아닌지 확인해준다.
 */
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -39,8 +38,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       // 토큰 가지고 있으면 토큰 유효성 검증
       Authentication auth = this.tokenProvider.getAuthentication(token); // 토큰 인증 정보 가져옴.
       SecurityContextHolder.getContext().setAuthentication(auth); // 토큰 인증 정보 context에 넣어줌.
-      // 어떤 사용자가 어떤 경로로 접근했는지 로그에 남김.
-      log.info(String.format("[%s] -> %s", this.tokenProvider.getLoginId(token), request.getRequestURI()));
     }
     filterChain.doFilter(request, response); // 필터 연속 실행 가능하도록 함.
   }
