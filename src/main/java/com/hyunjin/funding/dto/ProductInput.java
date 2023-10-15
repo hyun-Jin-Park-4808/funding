@@ -14,6 +14,7 @@ public class ProductInput {
   private Long price;
   private Long successPrice;
   private Long maxQuantity;
+  private double successRate;
   private LocalDateTime startDate;
   private LocalDateTime endDate;
 
@@ -25,6 +26,7 @@ public class ProductInput {
         .price(this.price)
         .successPrice(this.successPrice)
         .maxQuantity(this.maxQuantity)
+        .successRate(0.0)
         .startDate(this.startDate)
         .endDate(this.endDate)
         .maker(maker)

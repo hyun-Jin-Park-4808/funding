@@ -17,7 +17,7 @@ public class TransactionInput {
     return Transaction.builder()
         .accountNumber(this.accountNumber)
         .accountPassword(this.accountPassword)
-        .fundingStatus(true)
+        .isParticipating(true)
         .user(fkInput.getUser())
         .product(fkInput.getProduct())
         .build();

@@ -31,7 +31,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // REST API로 JWT으로 토큰 인증방식 구현할 때 붙여줘야 하는 부분
         .and()
         .authorizeRequests()
-        .antMatchers("/**/signup", "/**/login", "/auth/**, ", "/product/list/**").permitAll() // 모든 권한 허용
+        .antMatchers("/**/signup", "/**/login", "/auth/**, ", "/product/list/**",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/swagger-resources/**",
+            "/v2/api-docs/**").permitAll() // 모든 권한 허용
         .and()
         .addFilterBefore(this.authenticationFilter, UsernamePasswordAuthenticationFilter.class); // 필터 순서 정의
   }

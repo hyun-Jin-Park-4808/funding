@@ -50,7 +50,7 @@ public class Product {
   private Long maxQuantity;
 
   @Column(name = "success_rate")
-  private String successRate;
+  private Double successRate;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
   @Column(name = "start_date")

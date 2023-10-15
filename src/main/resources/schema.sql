@@ -59,7 +59,7 @@ CREATE TABLE `PRODUCT`
     `price`         BIGINT       NOT NULL COMMENT '제품 가격',                            -- 제품 가격
     `success_price` BIGINT       NOT NULL COMMENT '펀딩 성공 금액',                         -- 펀딩 성공 금액
     `max_quantity`  BIGINT       NOT NULL COMMENT '최대 판매 수량',                         -- 최대 판매 수량
-    `success_rate`  VARCHAR(10)      NULL COMMENT '펀딩 성공률',                               -- 펀딩 성공률
+    `success_rate`  DOUBLE      NULL COMMENT '펀딩 성공률',                               -- 펀딩 성공률
     `start_date`    DATETIME     NOT NULL COMMENT '펀딩 시작일',                           -- 펀딩 시작일
     `end_date`      DATETIME     NOT NULL COMMENT '펀딩 종료일',                           -- 펀딩 종료일
     `maker_id`      BIGINT       NOT NULL COMMENT '메이커 번호'                            -- 메이커 번호
@@ -72,8 +72,8 @@ CREATE TABLE `TRANSACTION`
     `transaction_id`     BIGINT      NOT NULL AUTO_INCREMENT primary key COMMENT '거래 아이디', -- 거래 아이디
     `account_number`     VARCHAR(20) NOT NULL COMMENT '계좌 번호',                             -- 계좌 번호
     `account_password`   VARCHAR(20) NOT NULL COMMENT '계좌 비밀번호',                           -- 계좌 비밀번호
-    `transaction_status` BOOLEAN     NULL COMMENT '거래 상태',                                 -- 거래 상태
-    `funding_status`     BOOLEAN     NULL COMMENT '펀딩 참여 상태',                              -- 펀딩 참여 상태
+    `is_paid` BOOLEAN     NULL COMMENT '거래 상태',                                 -- 거래 상태
+    `is_participating`     BOOLEAN     NULL COMMENT '펀딩 참여 상태',                              -- 펀딩 참여 상태
     `user_id`            BIGINT      NULL COMMENT '사용자 번호',                                -- 사용자 번호
     `product_id`         BIGINT      NULL COMMENT '제품 번호'                                  -- 제품 번호
 )

@@ -17,7 +17,7 @@ public class ProductInfo {
   private String companyName;
   private String productName;
   private long price;
-  private String successRate;
+  private double successRate;
   private LocalDateTime startDate;
   private LocalDateTime endDate;
 }
