@@ -1,4 +1,4 @@
-package com.hyunjin.funding.Security;
+package com.hyunjin.funding.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

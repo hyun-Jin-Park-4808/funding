@@ -1,4 +1,4 @@
-package com.hyunjin.funding.Security;
+package com.hyunjin.funding.security;
 
 import com.hyunjin.funding.service.AuthService;
 import io.jsonwebtoken.Claims;

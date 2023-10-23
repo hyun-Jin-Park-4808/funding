@@ -1,6 +1,6 @@
 package com.hyunjin.funding.controller;
 
-import com.hyunjin.funding.Security.TokenProvider;
+import com.hyunjin.funding.security.TokenProvider;
 import com.hyunjin.funding.domain.Maker;
 import com.hyunjin.funding.domain.User;
 import com.hyunjin.funding.dto.SignIn;
