@@ -1,9 +1,31 @@
+server:
+  port: 8081
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/fundingDB?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: zerobase
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client_id: ad4b82cad908bf36cd1055c571ba6ede
+            redirect_uri: http://localhost:8081/auth/kakao
+            client-authentication-method: client_secret_post
+            client_secret: 79OQG6EkhBH5IkIwusHGTIFTC9JB1cT4
+            authorization-grant-type: authorization_code
+            scope:
+              - account_email
+
+            client-name: Kakao
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
 
   jpa:
     open-in-view: true
@@ -30,4 +52,5 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug
+
 

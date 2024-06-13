@@ -30,7 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // REST API로 JWT으로 토큰 인증방식 구현할 때 붙여줘야 하는 부분
         .and()
         .authorizeRequests()
-        .antMatchers("/**/signup", "/**/login", "/auth/**, ", "/product/list/**",
+        .antMatchers("/auth/**", "/product/list/**",
             "/swagger-ui.html",
             "/webjars/**",
             "/swagger-resources/**",

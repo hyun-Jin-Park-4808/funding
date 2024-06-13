@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS TRANSACTION;
 DROP TABLE IF EXISTS PRODUCT;
 DROP TABLE IF EXISTS FOLLOW;
 DROP TABLE IF EXISTS MAKER;
-drop TABLE if exists ROLE;
+DROP TABLE if exists ROLE;
 DROP TABLE IF EXISTS USER;
 
 
@@ -72,8 +72,8 @@ CREATE TABLE `TRANSACTION`
     `transaction_id`     BIGINT      NOT NULL AUTO_INCREMENT primary key COMMENT '거래 아이디', -- 거래 아이디
     `account_number`     VARCHAR(20) NOT NULL COMMENT '계좌 번호',                             -- 계좌 번호
     `account_password`   VARCHAR(20) NOT NULL COMMENT '계좌 비밀번호',                           -- 계좌 비밀번호
-    `is_paid` BOOLEAN     NULL COMMENT '거래 상태',                                 -- 거래 상태
-    `is_participating`     BOOLEAN     NULL COMMENT '펀딩 참여 상태',                              -- 펀딩 참여 상태
+    `is_paid`            BOOLEAN     NULL COMMENT '거래 상태',                                 -- 거래 상태
+    `is_participating`   BOOLEAN     NULL COMMENT '펀딩 참여 상태',                              -- 펀딩 참여 상태
     `user_id`            BIGINT      NULL COMMENT '사용자 번호',                                -- 사용자 번호
     `product_id`         BIGINT      NULL COMMENT '제품 번호'                                  -- 제품 번호
 )

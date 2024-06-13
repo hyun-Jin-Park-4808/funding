@@ -1,5 +1,7 @@
 package com.hyunjin.funding.controller;
 
+import com.hyunjin.funding.dto.kakao.KakaoCodeDto;
+import com.hyunjin.funding.dto.kakao.KakaoSignIn;
 import com.hyunjin.funding.security.TokenProvider;
 import com.hyunjin.funding.domain.Maker;
 import com.hyunjin.funding.domain.User;
@@ -7,6 +9,7 @@ import com.hyunjin.funding.dto.SignIn;
 import com.hyunjin.funding.dto.MakerInput;
 import com.hyunjin.funding.dto.SignUp;
 import com.hyunjin.funding.service.AuthService;
+import com.hyunjin.funding.service.KakaoOAuthService;
 import io.swagger.annotations.ApiOperation;
 import java.security.Principal;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +28,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
   private final AuthService authService;
+  private final KakaoOAuthService kakaoOAuthService;
   private final TokenProvider tokenProvider;
 
   @ApiOperation(value = "회원가입 api입니다.")
   @PostMapping("/signup")
-  public ResponseEntity<User> signUp(@RequestBody SignUp request) {
-    var result = this.authService.register(request);
+  public ResponseEntity<User> signUp(@RequestBody SignUp signUp) {
+    var result = authService.register(signUp);
     return ResponseEntity.ok(result);
   }
 
@@ -38,11 +42,16 @@ public class AuthController {
       notes = "회원가입 이후 이용할 수 있습니다.\n "
           + "로그인 후 발급된 토큰을 복사하여 필요한 API 헤더에 붙여넣기 해주세요.")
   @PostMapping("/login")
-  public ResponseEntity<String> login(@RequestBody SignIn request) {
-    var user = this.authService.authenticate(request);
-    var token = this.tokenProvider.generateToken(user.getLoginId(), user.getRoles());
-    log.info("user login : " + request.getLoginId());
+  public ResponseEntity<String> login(@RequestBody SignIn signIn) {
+    var user = authService.authenticate(signIn);
+    var token = tokenProvider.generateToken(user.getLoginId(), user.getRoles());
     return ResponseEntity.ok(token);
+  }
+
+  @PostMapping("/kakao")
+  public ResponseEntity<KakaoSignIn> kakaoCallback(@RequestBody KakaoCodeDto kakaoCodeDto) {
+    var result = kakaoOAuthService.kakaoOAuth(kakaoCodeDto.getCode());
+    return ResponseEntity.ok(result);
   }
 
   @ApiOperation(value = "법인 사업자 등록을 위한 api입니다.",
@@ -53,10 +62,10 @@ public class AuthController {
 
     String loginId = principal.getName();
     // 메이커 권한 추가
-    this.authService.registerMakerAuthority(loginId);
+    authService.registerMakerAuthority(loginId);
 
     // 메이커 테이블에 데이터 추가
-    var result = this.authService.registerMakerByBRM(loginId, makerInput.getCompanyName(),
+    var result = authService.registerMakerByBRM(loginId, makerInput.getCompanyName(),
         makerInput.getBusinessRegistrationNumber());
     return ResponseEntity.ok(result);
   }
@@ -69,10 +78,10 @@ public class AuthController {
 
     String loginId = principal.getName();
     // 메이커 권한 추가
-    this.authService.registerMakerAuthority(loginId);
+    authService.registerMakerAuthority(loginId);
 
     // 메이커 테이블에 데이터 추가
-    var result = this.authService.registerMakerByPhone(loginId, makerInput.getCompanyName(),
+    var result = authService.registerMakerByPhone(loginId, makerInput.getCompanyName(),
         makerInput.getPhone());
     return ResponseEntity.ok(result);
   }
