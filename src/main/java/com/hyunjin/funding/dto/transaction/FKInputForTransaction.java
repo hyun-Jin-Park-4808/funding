@@ -1,15 +1,16 @@
-package com.hyunjin.funding.dto;
+package com.hyunjin.funding.dto.transaction;
 
 import com.hyunjin.funding.domain.Product;
-import com.hyunjin.funding.domain.Transaction;
 import com.hyunjin.funding.domain.User;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
+
 @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class FKInputForTransaction {
-
     private User user;
     private Product product;
 }

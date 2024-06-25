@@ -1,11 +1,15 @@
-package com.hyunjin.funding.dto;
+package com.hyunjin.funding.dto.auth;
 
 import com.hyunjin.funding.domain.User;
 import java.time.LocalDateTime;
 import java.util.List;
-import lombok.Data;
 
-@Data
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class SignUp {
 
     private String loginId;

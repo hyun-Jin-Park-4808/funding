@@ -1,13 +1,16 @@
-package com.hyunjin.funding.dto;
+package com.hyunjin.funding.dto.product;
 
 import com.hyunjin.funding.domain.Maker;
 import com.hyunjin.funding.domain.Product;
 import java.time.LocalDateTime;
-import lombok.Data;
 
-@Data
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductInput {
-
   private String companyName;
   private String productName;
   private String contents;

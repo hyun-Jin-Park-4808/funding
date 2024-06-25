@@ -5,9 +5,9 @@ import com.hyunjin.funding.dto.kakao.KakaoSignIn;
 import com.hyunjin.funding.security.TokenProvider;
 import com.hyunjin.funding.domain.Maker;
 import com.hyunjin.funding.domain.User;
-import com.hyunjin.funding.dto.SignIn;
-import com.hyunjin.funding.dto.MakerInput;
-import com.hyunjin.funding.dto.SignUp;
+import com.hyunjin.funding.dto.auth.SignIn;
+import com.hyunjin.funding.dto.auth.MakerInput;
+import com.hyunjin.funding.dto.auth.SignUp;
 import com.hyunjin.funding.service.AuthService;
 import com.hyunjin.funding.service.KakaoOAuthService;
 import io.swagger.annotations.ApiOperation;
@@ -48,6 +48,11 @@ public class AuthController {
     return ResponseEntity.ok(token);
   }
 
+  @ApiOperation(value = "카카오톡 로그인 api입니다.",
+          notes = "회원가입을 진행하지 않은 경우, 해당 카카오 계정의 이메일 정보를 얻을 수 있습니다.\n "
+                  + "회원가입을 진행한 경우 AccessToken이 발행됩니다.\n "
+                  + "아래 URL을 통해 code 값을 받은 후, RequestBody에 입력해 주세요.\n "
+                  + "https://kauth.kakao.com/oauth/authorize?client_id=ad4b82cad908bf36cd1055c571ba6ede&redirect_uri=http://localhost:8081/auth/kakao&response_type=code")
   @PostMapping("/kakao")
   public ResponseEntity<KakaoSignIn> kakaoCallback(@RequestBody KakaoCodeDto kakaoCodeDto) {
     var result = kakaoOAuthService.kakaoOAuth(kakaoCodeDto.getCode());

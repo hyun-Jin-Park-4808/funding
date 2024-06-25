@@ -1,8 +1,8 @@
 package com.hyunjin.funding.service;
 
 import com.hyunjin.funding.domain.Transaction;
-import com.hyunjin.funding.dto.FKInputForTransaction;
-import com.hyunjin.funding.dto.TransactionInput;
+import com.hyunjin.funding.dto.transaction.FKInputForTransaction;
+import com.hyunjin.funding.dto.transaction.TransactionInput;
 import com.hyunjin.funding.exception.impl.AlreadyCancelFundingException;
 import com.hyunjin.funding.exception.impl.AlreadyParticipatedInFundingException;
 import com.hyunjin.funding.exception.impl.FailFundingException;
