@@ -1,10 +1,13 @@
 package com.hyunjin.funding.service;
 
 import com.hyunjin.funding.domain.Product;
-import com.hyunjin.funding.dto.ProductDetail;
-import com.hyunjin.funding.dto.ProductInfo;
-import com.hyunjin.funding.dto.ProductInput;
+import com.hyunjin.funding.dto.product.ProductDetail;
+import com.hyunjin.funding.dto.product.ProductInfo;
+import com.hyunjin.funding.dto.product.ProductInput;
 import com.hyunjin.funding.exception.impl.AlreadyExistUserException;
+import com.hyunjin.funding.exception.impl.MakerNotFoundException;
+import com.hyunjin.funding.exception.impl.ProductNotFoundException;
+import com.hyunjin.funding.exception.impl.UserNotFoundException;
 import com.hyunjin.funding.repository.MakerRepository;
 import com.hyunjin.funding.repository.ProductRepository;
 import com.hyunjin.funding.repository.UserRepository;
@@ -28,17 +31,16 @@ public class ProductService {
 
   @Transactional
   public Product register(String loginId, ProductInput productInput) { // 제품 등록 메서드
-    var user = userRepository.findByLoginId(loginId);
-    var userId = user.get().getUserId();
-    var maker = makerRepository.findByUser_UserId(userId);
+    var user = userRepository.findByLoginId(loginId).orElseThrow(UserNotFoundException::new);
+    var userId = user.getUserId();
+    var maker = makerRepository.findByUser_UserId(userId).orElseThrow(MakerNotFoundException::new);
     boolean exists = this.productRepository.existsByProductName(productInput.getProductName());
 
     if (exists) { // 제품 이름 중복 검사
       throw new AlreadyExistUserException();
     }
 
-    var result = this.productRepository.save(productInput.toEntity(maker.get()));
-    return result;
+      return this.productRepository.save(productInput.toEntity(maker));
   }
 
   public List<ProductInfo> getProductListScheduled() {
@@ -99,7 +101,7 @@ public class ProductService {
 
   public ProductDetail getDetails(long id) {
 
-    var product = productRepository.findById(id);
-    return ProductDetail.fromEntity(product.get());
+    var product = productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
+    return ProductDetail.fromEntity(product);
   }
 }

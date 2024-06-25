@@ -4,6 +4,7 @@ import com.hyunjin.funding.domain.Follow;
 import com.hyunjin.funding.domain.Wish;
 import com.hyunjin.funding.exception.impl.MakerNotFoundException;
 import com.hyunjin.funding.exception.impl.ProductNotFoundException;
+import com.hyunjin.funding.exception.impl.UserNotFoundException;
 import com.hyunjin.funding.repository.FollowRepository;
 import com.hyunjin.funding.repository.MakerRepository;
 import com.hyunjin.funding.repository.ProductRepository;
@@ -28,14 +29,13 @@ public class UserService {
 
 
   public Wish wish(String loginId, long productId) {
-    var user = userRepository.findByLoginId(loginId);
-    var product = productRepository.findByProductId(productId);
-    var result = this.wishRepository.save(
+    var user = userRepository.findByLoginId(loginId).orElseThrow(UserNotFoundException::new);
+    var product = productRepository.findByProductId(productId).orElseThrow(ProductNotFoundException::new);
+      return this.wishRepository.save(
         Wish.builder()
-            .user(user.get())
-            .product(product.get())
+            .user(user)
+            .product(product)
             .build());
-    return result;
   }
 
   public void deleteWish(String loginId, long productId) {
@@ -43,26 +43,25 @@ public class UserService {
     var userId = user.get().getUserId();
     wishRepository
         .deleteByUser_UserIdAndProduct_ProductId(userId, productId)
-        .orElseThrow(() -> new ProductNotFoundException());
+        .orElseThrow(ProductNotFoundException::new);
   }
 
   public Follow follow(String loginId, long makerId) {
-    var user = userRepository.findByLoginId(loginId);
-    var maker = makerRepository.findById(makerId);
-    var result = this.followRepository.save(
+    var user = userRepository.findByLoginId(loginId).orElseThrow(UserNotFoundException::new);
+    var maker = makerRepository.findById(makerId).orElseThrow(MakerNotFoundException::new);
+      return this.followRepository.save(
         Follow.builder()
-            .user(user.get())
-            .maker(maker.get())
+            .user(user)
+            .maker(maker)
             .build());
-    return result;
   }
 
 
   public void deleteFollow(String loginId, long makerId) {
-    var user = userRepository.findByLoginId(loginId);
-    var userId = user.get().getUserId();
+    var user = userRepository.findByLoginId(loginId).orElseThrow(UserNotFoundException::new);
+    var userId = user.getUserId();
     followRepository
         .deleteByUser_UserIdAndMaker_MakerId(userId, makerId)
-        .orElseThrow(() -> new MakerNotFoundException());
+        .orElseThrow(MakerNotFoundException::new);
   }
 }

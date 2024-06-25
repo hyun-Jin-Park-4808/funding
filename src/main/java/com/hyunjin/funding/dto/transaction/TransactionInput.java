@@ -1,17 +1,17 @@
-package com.hyunjin.funding.dto;
+package com.hyunjin.funding.dto.transaction;
 
-import com.hyunjin.funding.domain.Maker;
-import com.hyunjin.funding.domain.Product;
 import com.hyunjin.funding.domain.Transaction;
-import com.hyunjin.funding.domain.User;
-import java.time.LocalDateTime;
-import lombok.Builder;
-import lombok.Data;
 
-@Data
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class TransactionInput {
   private String accountNumber;
   private String accountPassword;
+  private long productId;
 
   public Transaction toEntity(FKInputForTransaction fkInput) {
     return Transaction.builder()

@@ -1,14 +1,12 @@
-package com.hyunjin.funding.dto;
+package com.hyunjin.funding.dto.product;
 
-import com.hyunjin.funding.domain.Maker;
 import com.hyunjin.funding.domain.Product;
 import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
+import lombok.*;
+
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

@@ -9,6 +9,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface WishRepository extends JpaRepository<Wish, Long> {
   Optional<Wish> deleteByUser_UserIdAndProduct_ProductId(long userId, long productId);
-
-
 }

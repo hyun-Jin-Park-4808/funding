@@ -58,7 +58,7 @@ public class TokenProvider {
     UserDetails userDetails = this.authService.loadUserByUsername(this.getLoginId(jwt));
     return new UsernamePasswordAuthenticationToken(
         userDetails, "", userDetails.getAuthorities());
-  }
+  } // JWT 자체로 인증 정보 확인하므로 credentials(비밀 정보) 필요 없음.
 
   public boolean validateToken(String token) {
     if (!StringUtils.hasText(token)) {

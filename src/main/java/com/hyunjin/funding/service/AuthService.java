@@ -2,20 +2,14 @@ package com.hyunjin.funding.service;
 
 import com.hyunjin.funding.domain.Maker;
 import com.hyunjin.funding.domain.User;
-import com.hyunjin.funding.dto.SignIn;
-import com.hyunjin.funding.dto.SignUp;
+import com.hyunjin.funding.dto.auth.SignIn;
+import com.hyunjin.funding.dto.auth.SignUp;
 import com.hyunjin.funding.dto.type.Authority;
 import com.hyunjin.funding.exception.impl.AlreadyExistUserException;
+import com.hyunjin.funding.exception.impl.UserNotFoundException;
 import com.hyunjin.funding.repository.MakerRepository;
 import com.hyunjin.funding.repository.UserRepository;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,6 +17,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -51,8 +50,7 @@ public class AuthService implements UserDetailsService {
     }
 
     user.setPassword(this.passwordEncoder.encode(user.getPassword())); // 비밀번호 인코딩해서 저장
-    var result = this.userRepository.save(user.toEntity(rolesArr)); // 컴파일러가 변수타입 추정(var)
-    return result;
+      return this.userRepository.save(user.toEntity(rolesArr));
 
   }
 
@@ -73,10 +71,9 @@ public class AuthService implements UserDetailsService {
         .orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다."));
 
     String[] rolesArr = {"ROLE_SUPPORTER", "ROLE_MAKER"};
-    List<String> roles = new ArrayList<String>();
-    roles.addAll(Arrays.asList(rolesArr));
+      List<String> roles = new ArrayList<> (Arrays.asList(rolesArr));
 
-    var result = this.userRepository.save(User.builder()
+      return this.userRepository.save(User.builder()
         .userId(user1.getUserId())
         .loginId(user1.getLoginId())
         .password(user1.getPassword())
@@ -84,7 +81,6 @@ public class AuthService implements UserDetailsService {
         .createdDate(user1.getCreatedDate())
         .modifiedDate(LocalDateTime.now())
         .build());
-    return result;
   }
 
   @Transactional
@@ -92,7 +88,8 @@ public class AuthService implements UserDetailsService {
       String businessRegistrationNumber) {
     boolean exists = this.makerRepository.existsByBusinessRegistrationNumber(
         businessRegistrationNumber);
-    Optional<User> user = this.userRepository.findByLoginId(loginId);
+    var user = this.userRepository.findByLoginId(loginId)
+            .orElseThrow(UserNotFoundException::new);
 
     if (exists) { // 사업자등록번호 중복 검사
       throw new AlreadyExistUserException();
@@ -101,7 +98,7 @@ public class AuthService implements UserDetailsService {
     return makerRepository.save(Maker.builder()
         .companyName(companyName)
         .businessRegistrationNumber(businessRegistrationNumber)
-        .user(user.get())
+        .user(user)
         .build());
   }
 
@@ -109,7 +106,8 @@ public class AuthService implements UserDetailsService {
   public Maker registerMakerByPhone(String loginId, String companyName, String phone) {
     boolean exists = this.makerRepository.existsByPhone(
         phone);
-    Optional<User> user = this.userRepository.findByLoginId(loginId);
+    var user = this.userRepository.findByLoginId(loginId)
+            .orElseThrow(UserNotFoundException::new);
 
     if (exists) { // 전화번호 중복 검사
       throw new AlreadyExistUserException();
@@ -118,7 +116,7 @@ public class AuthService implements UserDetailsService {
     return makerRepository.save(Maker.builder()
         .companyName(companyName)
         .phone(phone)
-        .user(user.get())
+        .user(user)
         .build());
   }
 }

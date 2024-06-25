@@ -37,12 +37,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/v2/api-docs/**").permitAll() // 모든 권한 허용
         .and()
         .addFilterBefore(this.authenticationFilter, UsernamePasswordAuthenticationFilter.class); // 필터 순서 정의
+    //  UsernamePasswordAuthenticationFilter라는 기본 필터 앞에 authenticationFilter라는 커스텀 필터를 추가
   }
 
   @Bean
   @Override
+  // AuthenticationManager: 인증 작업을 처리하는 역할
+  // 이 인터페이스를 구현한 구현체는 사용자의 credential(주로 아이디, 패스워드)을 인증하고 Authentication 객체를 반환한다.
   public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
+    return super.authenticationManagerBean(); // 기본 인증 매니저 사용
   }
-
 }

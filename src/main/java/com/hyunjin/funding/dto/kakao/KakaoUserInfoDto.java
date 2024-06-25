@@ -13,7 +13,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class KakaoUserInfoDto {
-    // {"kakao_account" : "value"} 형태의 JSON 데이터가 KakaoUserInfoDto의 kakaoAccount 필드와 매핑된다.
-    @JsonProperty("kakao_account")
+    @JsonProperty("kakao_account") // {"kakao_account" : ""} 형태의 JSON 데이터가 kakaoAccount 필드와 매핑된다.
     private KakaoAccount kakaoAccount;
 }
